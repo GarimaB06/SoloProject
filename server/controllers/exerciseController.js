@@ -30,4 +30,17 @@ exerciseController.addExercise = async (req, res, next) => {
   })
 }
 
+exerciseController.deleteExercise = async (req, res, next) => {
+  try {
+    await models.Exercise.deleteOne({ _id: req.params.id })
+    // console.log(req.params)
+    return next()
+  } catch (err) {
+    return next({
+      log: 'problem deleting your exercise, keep sweatin!',
+      message: { error: err },
+    })
+  }
+}
+
 module.exports = exerciseController

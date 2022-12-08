@@ -12,6 +12,15 @@ router.post('/exercises', exerciseController.addExercise, (req, res) => {
   return res.status(200).json(res.locals.exercise)
 })
 // router.patch('/', (req, res) => {})
-// router.delete('/', (req, res) => {})
+
+router.delete(
+  '/exercises/:id',
+  exerciseController.deleteExercise,
+  (req, res) => {
+    return res
+      .status(200)
+      .json({ message: 'Successfully deleted the exercise' })
+  },
+)
 
 module.exports = router

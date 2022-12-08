@@ -18,14 +18,42 @@ class Exercises extends Component {
     }
   }
 
+  deleteExercise = async (id) => {
+    const url = `/api/exercises/${id}`
+    const response = await fetch(url, {
+      method: 'DELETE',
+    })
+    const data = await response.json()
+    console.log(data)
+    return data
+  }
+
   renderCompletedExercises = () => {
     return this.state.exerciseList.map((obj) => {
       return (
-        <div className="exercise-card">
-          <div>Date:{obj.date}</div>
-          <div>Exercise Name: {obj.exerciseName}</div>
-          <div>Muscle Group: {obj.muscleGroup}</div>
+        <div className="exercise-card" key={obj._id}>
+          <div>
+            <strong>Date :</strong>
+            {new Date(obj.date).toDateString()}
+          </div>
+          <div>
+            <strong>Exercise Name :</strong>
+            {obj.exerciseName}
+          </div>
+          <div className="card-muscle-group">
+            <strong>Muscle Group :</strong>
+            {obj.muscleGroup}
+          </div>
           {this.renderCompletedSets(obj.sets)}
+          {/* <button onClick={this.deleteExercise}>Delete</button> */}
+          <button
+            className="delete-btn"
+            onClick={() => {
+              this.deleteExercise(obj._id)
+            }}
+          >
+            Delete
+          </button>
         </div>
       )
     })
@@ -35,8 +63,14 @@ class Exercises extends Component {
     return sets.map((setObj) => {
       return (
         <div className="completed-set">
-          <div>Reps:{setObj.reps}</div>
-          <div>Weight:{setObj.weight}</div>
+          <div>
+            <strong>Reps :</strong>
+            {setObj.reps}
+          </div>
+          <div>
+            <strong>Weight :</strong>
+            {setObj.weight}
+          </div>
         </div>
       )
     })

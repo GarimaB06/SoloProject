@@ -42,7 +42,7 @@ class CreateExercise extends Component {
     ) {
       try {
         const fetchedList = await this.fetchExercises()
-        console.log(fetchedList)
+        // console.log(fetchedList)
         this.setState({ exerciseList: fetchedList })
       } catch (err) {
         console.log(err)
@@ -66,7 +66,7 @@ class CreateExercise extends Component {
   changeHandler(entry, key) {
     this.setState({ [key]: entry.target.value })
     if (key === 'exercise') {
-      console.log(entry)
+      // console.log(entry)
     }
   }
 
@@ -120,6 +120,7 @@ class CreateExercise extends Component {
     })
   }
 
+  //post request and submit
   postExercise = async (body) => {
     const url = `/api/exercises`
     const response = await fetch(url, {
@@ -202,7 +203,7 @@ class CreateExercise extends Component {
             Add Set
           </button>
         </form>
-        {this.renderCompletedSets()}
+        <div className="sets-flexed">{this.renderCompletedSets()}</div>
         <button type="button" onClick={this.submitExercise}>
           Submit Exercise
         </button>
