@@ -1,4 +1,83 @@
+// /* eslint-disable no-unused-vars */
+// const webpack = require('webpack')
+// const path = require('path')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+// module.exports = {
+//   entry: [
+//     // entry point of our app
+//     './client/index.js',
+//   ],
+//   output: {
+//     path: path.resolve(__dirname, 'public'),
+//     publicPath: '/',
+//     filename: 'main.js',
+//   },
+//   devtool: 'eval-source-map',
+//   mode: 'development',
+//   devServer: {
+//     host: 'localhost',
+//     port: 8080,
+//     // enable HMR on the devServer
+//     hot: true,
+//     // fallback to root for other urls
+//     historyApiFallback: true,
+
+//     static: {
+//       // match the output path
+//       directory: path.resolve(__dirname, 'dist'),
+//       // match the output 'publicPath'
+//       publicPath: '/',
+//     },
+
+//     headers: { 'Access-Control-Allow-Origin': '*' },
+//     /**
+//      * proxy is required in order to make api calls to
+//      * express server while using hot-reload webpack server
+//      * routes api fetch requests from localhost:8080/api/* (webpack dev server)
+//      * to localhost:3000/api/* (where our Express server is running)
+//      */
+//     proxy: {
+//       '/api/**': {
+//         target: 'http://localhost:3000/',
+//         secure: false,
+//       },
+//       '/assets/**': {
+//         target: 'http://localhost:3000/',
+//         secure: false,
+//       },
+//     },
+//   },
+//   module: {
+//     rules: [
+//       {
+//         test: /.(js|jsx)$/,
+//         exclude: /node_modules/,
+//         use: {
+//           loader: 'babel-loader',
+//         },
+//       },
+//       {
+//         test: /.(css|scss)$/,
+//         exclude: /node_modules/,
+//         use: ['style-loader', 'css-loader'],
+//       },
+//     ],
+//   },
+//   plugins: [
+//     new HtmlWebpackPlugin({
+//       template: './client/index.html',
+//     }),
+//   ],
+//   resolve: {
+//     // Enable importing JS / JSX files without specifying their extension
+//     extensions: ['.js', '.jsx'],
+//   },
+// }
+
+const webpack = require('webpack')
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   /** "mode"
@@ -9,7 +88,9 @@ module.exports = {
   /** "entry"
    * the entry point
    */
-  entry: './index.js',
+  devtool: 'eval-source-map',
+
+  entry: './client/index.js',
   output: {
     /** "path"
      * the folder path of the output file
@@ -29,11 +110,18 @@ module.exports = {
     /** "port"
      * port of dev server
      */
-    port: '8080',
+    host: 'localhost',
+    port: 8080,
     /** "static"
      * This property tells Webpack what static file it should serve
      */
-    static: ['./public'],
+    // static: ['./public'],
+    static: {
+      // match the output path
+      directory: path.resolve(__dirname, 'public'),
+      // match the output 'publicPath'
+      publicPath: '/',
+    },
     /** "open"
      * opens the browser after server is successfully started
      */
@@ -48,14 +136,23 @@ module.exports = {
      * disable live reload on the browser. "hot" must be set to false for this to work
      */
     liveReload: true,
-  },
-  resolve: {
-    /** "extensions"
-     * If multiple files share the same name but have different extensions, webpack will
-     * resolve the one with the extension listed first in the array and skip the rest.
-     * This is what enables users to leave off the extension when importing
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    /**
+     * proxy is required in order to make api calls to
+     * express server while using hot-reload webpack server
+     * routes api fetch requests from localhost:8080/api/* (webpack dev server)
+     * to localhost:3000/api/* (where our Express server is running)
      */
-    extensions: ['.js', '.jsx', '.json'],
+    proxy: {
+      '/api/**': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      // '/assets/**': {
+      //   target: 'http://localhost:3000/',
+      //   secure: false,
+      // },
+    },
   },
   module: {
     /** "rules"
@@ -71,9 +168,23 @@ module.exports = {
         use: 'babel-loader', //loader which we are going to use
       },
       {
-        test: /\.s?css@/i,
+        test: /.(css|scss)$/,
+        exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
+  resolve: {
+    /** "extensions"
+     * If multiple files share the same name but have different extensions, webpack will
+     * resolve the one with the extension listed first in the array and skip the rest.
+     * This is what enables users to leave off the extension when importing
+     */
+    extensions: ['.js', '.jsx', '.json'],
   },
 }
