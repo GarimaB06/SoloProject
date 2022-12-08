@@ -1,37 +1,31 @@
 const mongoose = require('mongoose')
 
 const MONGO_URI = ''
-
 mongoose
   .connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'workouts',
+    dbName: 'exercises',
   })
   .then(() => console.log('Connected to Mongo DB.'))
   .catch((err) => console.log(err))
 
 const Schema = mongoose.Schema
 
-const workoutSchema = new Schema({
+const exerciseSchema = new Schema({
   date: Date,
-  // workoutNumber: Number,
-  exercises: [
+  muscleGroup: String,
+  exerciseName: String,
+  sets: [
     {
-      exerciseName: String,
-      muscleGroup: String,
-      sets: [
-        {
-          reps: Number,
-          weight: Number,
-        },
-      ],
+      weight: Number,
+      reps: Number,
     },
   ],
 })
 
-const Workout = mongoose.model('workout', workoutSchema)
+const Exercise = mongoose.model('exercise', exerciseSchema)
 
 module.exports = {
-  Workout,
+  Exercise,
 }

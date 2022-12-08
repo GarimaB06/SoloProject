@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-import CreateWorkout from './CreateWorkout'
-import Workouts from './Workouts'
+import CreateExercise from './CreateExercise'
+import Exercises from './Exercises'
 import '../stylesheets/styles.scss'
 
 class LandingPage extends React.Component {
@@ -10,8 +10,8 @@ class LandingPage extends React.Component {
       <div>
         <header>Welcome to your Create Workout App</header>
         <div className="landing-page">
-          <CreateWorkout />
-          <Workouts />
+          <CreateExercise />
+          <Exercises />
         </div>
       </div>
     )

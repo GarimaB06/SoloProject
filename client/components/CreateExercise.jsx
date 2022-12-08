@@ -20,29 +20,38 @@ const muscleGroupArr = [
   { id: 'triceps-16', value: 'triceps', displayText: 'triceps' },
 ]
 
-class CreateWorkout extends Component {
+class CreateExercise extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      reps: '',
-      weight: '',
       muscleGroup: '',
       exercise: '',
+      sets: [],
+      exerciseList: [],
+      instructions: '',
+      reps: '',
+      weight: '',
     }
     this.changeHandler = this.changeHandler.bind(this)
-    this.onCreateRep = this.onCreateRep.bind(this)
-    this.onCreateWeight = this.onCreateWeight.bind(this)
-    this.onCreateMuscleGroup = this.onCreateMuscleGroup.bind(this)
-    this.onCreateExercise = this.onCreateExercise.bind(this)
   }
 
-  componentDidUpdate() {
-    console.log(this.state)
+  async componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.muscleGroup &&
+      this.state.muscleGroup !== prevState.muscleGroup
+    ) {
+      try {
+        const fetchedList = await this.fetchExercises()
+        console.log(fetchedList)
+        this.setState({ exerciseList: fetchedList })
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
 
   fetchExercises = async () => {
     const url = `https://api.api-ninjas.com/v1/exercises?muscle=${this.state.muscleGroup}`
-    // const url = `https://api.api-ninjas.com/v1/exercises?muscle=triceps`
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -50,32 +59,27 @@ class CreateWorkout extends Component {
       },
     })
     const data = await response.json()
-    console.log(data)
+    // console.log(data)
+    return data
   }
 
   changeHandler(entry, key) {
-    console.log(entry, key)
     this.setState({ [key]: entry.target.value })
+    if (key === 'exercise') {
+      console.log(entry)
+    }
   }
 
-  onCreateRep() {
-    console.log(this.state.reps)
-  }
-
-  onCreateWeight() {
-    console.log(this.state.weight)
-  }
-
-  onCreateMuscleGroup() {
-    console.log(this.state.muscleGroup)
-  }
-
-  onCreateExercise() {
-    console.log(this.state.exercise)
+  addSet = () => {
+    const setObj = {}
+    setObj.reps = this.state.reps
+    setObj.weight = this.state.weight
+    const newSets = [...this.state.sets, setObj]
+    this.setState({ sets: newSets })
   }
 
   //rendering options using a function
-  renderOptions = () => {
+  renderDropdownOptions = () => {
     return muscleGroupArr.map((muscleObj) => {
       return (
         <option
@@ -90,12 +94,66 @@ class CreateWorkout extends Component {
     })
   }
 
+  renderPickExercise = () => {
+    const nameList = this.state.exerciseList.map((dataObj) => {
+      return (
+        <option
+          className="options"
+          key={`${dataObj.name}${dataObj.type}`}
+          value={dataObj.name}
+        >
+          {dataObj.name}
+        </option>
+      )
+    })
+    return nameList
+  }
+
+  renderCompletedSets = () => {
+    return this.state.sets.map((setObj) => {
+      return (
+        <div className="set-circle">
+          <div>Reps:{setObj.reps}</div>
+          <div>Weight:{setObj.weight}</div>
+        </div>
+      )
+    })
+  }
+
+  postExercise = async (body) => {
+    const url = `/api/exercises`
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+      body: JSON.stringify(body),
+    })
+    const data = await response.json()
+    // console.log(data)
+    return data
+  }
+
+  submitExercise = async () => {
+    const body = {}
+    body.date = new Date()
+    body.muscleGroup = this.state.muscleGroup
+    body.exerciseName = this.state.exercise
+    body.sets = this.state.sets
+    try {
+      const response = await this.postExercise(body)
+      const data = response.json()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   render() {
-    // console.log(window)
+    console.log(this.state)
     return (
       <div className="form-container">
         <h2>Let's create your workout for today!</h2>
-        <form className="form" onSubmit={this.onSubmitTest}>
+        <form className="form" onSubmit={(e) => e.preventDefault()}>
           {/* dropdown1 */}
           <div className="common-class-name">
             <label htmlFor="dropdown-1">Pick a muscle group</label>
@@ -105,7 +163,7 @@ class CreateWorkout extends Component {
               value={this.state.muscleGroup}
             >
               <option>Choose an option</option>
-              {this.renderOptions()}
+              {this.renderDropdownOptions()}
             </select>
           </div>
           {/* dropdown-2 */}
@@ -117,6 +175,7 @@ class CreateWorkout extends Component {
               onChange={(e) => this.changeHandler(e, 'exercise')}
             >
               <option>Choose an option</option>
+              {this.renderPickExercise()}
             </select>
           </div>
           {/* reps  */}
@@ -128,23 +187,28 @@ class CreateWorkout extends Component {
               value={this.state.reps}
               onChange={(e) => this.changeHandler(e, 'reps')}
             />
-            <button onClick={this.onCreateRep}>Submit Reps</button>
           </div>
           {/* weight */}
           <div className="common-class-name">
-            <label htmlFor="weight">Enter Weight:</label>
+            <label htmlFor="weight">Enter Weight(lbs):</label>
             <input
               type="number"
               name="weight"
               value={this.state.weight}
               onChange={(e) => this.changeHandler(e, 'weight')}
             />
-            <button onClick={this.onCreateWeight}>Submit Weight</button>
           </div>
+          <button type="button" onClick={this.addSet}>
+            Add Set
+          </button>
         </form>
+        {this.renderCompletedSets()}
+        <button type="button" onClick={this.submitExercise}>
+          Submit Exercise
+        </button>
       </div>
     )
   }
 }
 
-export default CreateWorkout
+export default CreateExercise
