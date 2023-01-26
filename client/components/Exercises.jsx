@@ -8,6 +8,10 @@ class Exercises extends Component {
       exerciseList: [],
     }
   }
+
+  // useeffect(()=>{
+  // },[])
+
   async componentDidMount() {
     try {
       const response = await fetch('/api/')

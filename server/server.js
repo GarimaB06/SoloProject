@@ -19,7 +19,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api', apiRouter)
 
 // catch-all route handler for any requests to an unknown route
-app.use((req, res) => res.status(404).send('Hey! Wilding out error'))
+app.use((req, res) => res.status(404).send('Hey Friend!'))
 
 // Global error handler
 app.use((err, req, res, next) => {

@@ -32,17 +32,25 @@ class CreateExercise extends Component {
       reps: '',
       weight: '',
     }
+    //Why did we use the bind method up here?
     this.changeHandler = this.changeHandler.bind(this)
   }
 
+  //we're using the lifecycle method in the frontend to trigger a fetch request to the api of an existing database
+  //we will be rendering this data directly to the frontend
+  //componentDidUpdate async method is invoked immediately after updating occurs in the first dropdown
   async componentDidUpdate(prevProps, prevState) {
     if (
+      //checking if the muscle group has been picked and if it hasn't been picked before
+      //if that condition is true we use the try/catch to invoke the fetchExercises function
+      //and set the fetched list of data in the state using the setState method
       this.state.muscleGroup &&
       this.state.muscleGroup !== prevState.muscleGroup
     ) {
       try {
         const fetchedList = await this.fetchExercises()
         // console.log(fetchedList)
+        //we're setting the value of exerciseList in our state to the fetched data from the existing database
         this.setState({ exerciseList: fetchedList })
       } catch (err) {
         console.log(err)
@@ -50,6 +58,7 @@ class CreateExercise extends Component {
     }
   }
 
+  //A class method that is making a GET request to the url to fetch the data and returning the data as a json
   fetchExercises = async () => {
     const url = `https://api.api-ninjas.com/v1/exercises?muscle=${this.state.muscleGroup}`
     const response = await fetch(url, {
@@ -63,13 +72,19 @@ class CreateExercise extends Component {
     return data
   }
 
-  changeHandler(entry, key) {
-    this.setState({ [key]: entry.target.value })
-    if (key === 'exercise') {
-      // console.log(entry)
-    }
+  //A class method that is accepting an event and a key(to determine which key to update in the state)
+  //This is used in the input & select elemetns(of the form)
+  //it is fired everytime there's a change in the input fields
+  //we're taking the inputted value from the event.target.value(which is the inputted value)
+  //we're setting it to the specific key(argument) in the state
+  changeHandler(event, key) {
+    this.setState({ [key]: event.target.value })
   }
 
+  //A class method that is setting the value of reps and weight entries to the setObject
+  //setObject is then passed into an array along with the older sets objects(using the spread operator)
+  //we store that array into a variable called newSets
+  //update the state sets property to the value of newSets
   addSet = () => {
     const setObj = {}
     setObj.reps = this.state.reps
@@ -78,16 +93,16 @@ class CreateExercise extends Component {
     this.setState({ sets: newSets })
   }
 
-  //rendering options using a function
+  //A class method that is used to map array elements and render them to the 1st dropdown
   renderDropdownOptions = () => {
     return muscleGroupArr.map((muscleObj) => {
       return (
         <option
           className="options"
-          key={muscleObj.id}
-          id={muscleObj.id}
-          value={muscleObj.value}
+          key={muscleObj.id} //when you use map in react to map elements, react want's you to use a unique key attribute to prevent unnecessary re-renders
+          value={muscleObj.value} //we're accessing the value of muscle group string to be used to fetch the data and render in the 2nd dropdown
         >
+          {/* accessing the displayText property to be rendered to the 2nd dropdown */}
           {muscleObj.displayText}
         </option>
       )
