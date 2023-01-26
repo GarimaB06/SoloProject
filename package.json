@@ -2,16 +2,19 @@
   "name": "new-react-app",
   "version": "1.0.0",
   "description": "A new react app without CRA",
-  "main": "server/server.js",
+  "main": "main.js",
   "scripts": {
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot --progress --color \" \"nodemon ./server/server.js\"",
     "build": "Webpack .",
-    "test": "test"
+    "test": "test",
+    "ourDev": "concurrently -k \"BROWSER=none npm run dev\" \"npm run electron\"",
+    "electron": "wait-on tcp:8080 && electron ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.17.0",
+    "electron": "^22.1.0",
     "express": "^4.18.2",
     "file-loader": "^6.2.0",
     "mongoose": "^6.8.0",
@@ -44,6 +47,7 @@
     "html-webpack-plugin": "^5.5.0",
     "nodemon": "^1.18.9",
     "style-loader": "^3.3.1",
+    "wait-on": "^7.0.1",
     "webpack": "^5.68.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4",
@@ -54,5 +58,14 @@
       "server/data/*",
       "client/*"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GarimaB06/SoloProject.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/GarimaB06/SoloProject/issues"
+  },
+  "homepage": "https://github.com/GarimaB06/SoloProject#readme"
 }

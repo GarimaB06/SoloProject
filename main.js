@@ -10,11 +10,11 @@ function createWindow() {
     height: 750,
     backgroundColor: 'white',
     webPreferences: {
-      preload: path.join(__dirname, './public/bundle.js'),
-      sandbox: false,
+      nodeIntegration: true,
+      enableRemoteModule: true,
     },
   })
-  console.log(process.env)
+
   if (process.env.NODE_ENV === 'development') {
     win.loadURL(`http://localhost:8080`)
   } else {
@@ -26,6 +26,7 @@ function createWindow() {
       }),
     )
   }
+
   win.on('closed', () => {
     win = null
   })
