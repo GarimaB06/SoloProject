@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Roboto:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Roboto:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Pacifico&family=Roboto:ital,wght@0,400;0,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:wght@400;600;700&family=Montserrat:wght@300&family=Pacifico&family=Permanent+Marker&family=Roboto:ital,wght@0,400;0,700;1,900&display=swap');
 
 $basecolor: #e1e0dc;
 $brown: #4d3b1d;
@@ -10,20 +11,45 @@ $bawapink: #f9ece2;
 $hotpink: #d879ba;
 $blackish: #212121;
 $offpink: #ec53b3;
-$darkpink: #a9377e;
+$darkpink: #d527b7;
 $warmerBackground: #fffcf3;
+$purple: #8a00d4;
+$gold:#f9c46b;
+
+
+@media (min-width: 1200px) {
+  header {
+    font-family: 'Permanent Marker';
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    padding: 20px;
+    font-size: 30px;
+    // background-color: #f1a481;
+  
+    background-color: $purple;
+  }
+
+.form-container {
+  max-width: 300px;
+  margin-top: 60px;
+}
+}
+
+
 
 .landing-page {
   display: flex;
   background-color: white;
   // justify-content: space-between;
-  height: 100vh;
+  // height: 100vh;
   font-family: Montserrat;
   color: $brown;
 }
 
 header {
-  font-family: Montserrat;
+  font-family: 'Permanent Marker';
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -32,7 +58,7 @@ header {
   font-size: 30px;
   // background-color: #f1a481;
 
-  background-color: $setButtonBlue;
+  background-color: $purple;
 }
 
 .form-container {
@@ -52,6 +78,9 @@ header {
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 }
 
+.form-container h2{
+  font-family: 'Permanent Marker';
+}
 select:hover {
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
@@ -153,12 +182,12 @@ input:hover {
 
 @-webkit-keyframes glow {
   from {
-    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px $setButtonBlue,
-      0 0 40px $setButtonBlue, 0 0 50px $setButtonBlue, 0 0 60px $setButtonBlue;
+    box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px $gold,
+      0 0 40px $gold, 0 0 50px $gold, 0 0 60px $gold;
   }
   to {
-    box-shadow: 0 0 20px #fff, 0 0 30px $setButtonBlue, 0 0 40px $setButtonBlue,
-      0 0 50px $setButtonBlue, 0 0 60px $setButtonBlue, 0 0 70px $setButtonBlue;
+    box-shadow: 0 0 20px #fff, 0 0 30px $gold, 0 0 40px $gold,
+      0 0 50px $gold, 0 0 60px $gold, 0 0 70px $gold;
   }
 }
 
@@ -176,7 +205,7 @@ input:hover {
   // background-color: #5f666d;
   // background-color: $blackish;
   // background-color: $offpink;
-  background-image: linear-gradient($offpink, $setButtonBlue);
+  background-image: linear-gradient($offpink, $gold);
   // background-image: linear-gradient(#5f666d, $offpink);
   text-align: left;
   overflow-y: scroll;
@@ -197,23 +226,28 @@ input:hover {
   //   rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-.motivational-quote {
-  position: absolute;
+footer{
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-self: flex-end;
+  justify-content: center;
+  padding: 50px;
+}
+
+.motivational-quote{
+  // display: flex;
+  // justify-content: center;
+  font-family: 'Permanent Marker';
+  // position: absolute;
   padding-top: 50px;
   text-align: center;
   font-size: 30px;
-  margin-left: 1000px;
-  margin-bottom: 180px;
   height: 100px;
   width: 500px;
-  background-color: #73b3b6;
+  background-color: $hotpink;
   color: white;
   border-radius: 6rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  box-shadow: rgba(243, 179, 68, 0.25) 0px 50px 100px -20px,
+    rgba(244, 180, 69, 0.25) 0px 30px 60px -30px;
   -webkit-animation: glow 1s ease-in-out infinite alternate;
   -moz-animation: glow 1s ease-in-out infinite alternate;
   animation: glow 1s ease-in-out infinite alternate;

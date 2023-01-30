@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import { Link, withRouter } from 'react-router-dom'
 
 class Exercises extends Component {
   constructor(props) {

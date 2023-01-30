@@ -7,7 +7,7 @@
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot --progress --color \" \"nodemon ./server/server.js\"",
     "build": "Webpack .",
     "test": "test",
-    "ourDev": "concurrently -k \"BROWSER=none npm run dev\" \"npm run electron\"",
+    "ourDev": "NODE_ENV=development concurrently -k \"BROWSER=none npm run dev\" \"npm run electron\"",
     "electron": "wait-on tcp:8080 && electron ."
   },
   "author": "",

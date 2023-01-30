@@ -1,9 +1,9 @@
 import React from 'react'
-import LandingPage from './components/LandingPage'
+import LandingPageHooks from './hooks/LandingPageHooks'
 const App = () => {
   return (
     <div>
-      <LandingPage />
+      <LandingPageHooks />
     </div>
   )
 }
