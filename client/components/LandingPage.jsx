@@ -12,12 +12,8 @@ class LandingPage extends React.Component {
         <div className="landing-page">
           <CreateExercise />
           <Exercises />
+          <div className="motivational-quote">Let's keep sweating!</div>
         </div>
-        <footer>
-        <div className="motivational-quote">
-          Let's keep sweating!
-        </div>
-        </footer>
       </div>
     )
   }

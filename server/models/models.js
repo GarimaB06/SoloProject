@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
-const MONGO_URI =
-  'mongodb+srv://SoloProject:$$plantMama$$@cluster0.py2elvu.mongodb.net/?retryWrites=true&w=majority'
+const MONGO_URI = ''
 
 mongoose
   .connect(MONGO_URI, {
