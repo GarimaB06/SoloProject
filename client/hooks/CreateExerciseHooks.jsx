@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useId} from 'react'
 
 const muscleGroupArr = [
     { id: 'abdominals-1', value: 'abdominals', displayText: 'abdominals' },
@@ -19,8 +19,9 @@ const muscleGroupArr = [
     { id: 'triceps-16', value: 'triceps', displayText: 'triceps' },
   ]
 
-  function CreateExercise() {
-    const [state, setState] = useState({
+  function CreateExercise(props) {
+    const { toggleRefetch, setToggleRefetch} = props
+     const [state, setState] = useState({
         muscleGroup: '',
         exercise: '',
         sets: [],
@@ -102,6 +103,7 @@ const muscleGroupArr = [
 
       const renderCompletedSets = () => {
         return state.sets.map((setObj) => {
+          // const id = useId()
           return (
             <div className="set-circle">
               <div>Reps:{setObj.reps}</div>
@@ -133,7 +135,10 @@ const muscleGroupArr = [
         body.sets = state.sets
         try {
           const response = await postExercise(body)
-          const data = response.json()
+          // const data = response.json()
+          if(response){
+            setToggleRefetch(!toggleRefetch)
+          }
         } catch (err) {
           console.log(err)
         }
